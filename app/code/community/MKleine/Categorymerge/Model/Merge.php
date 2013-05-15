@@ -21,6 +21,31 @@
 class MKleine_Categorymerge_Model_Merge extends Mage_Core_Model_Abstract
 {
     /**
+     * Write connection
+     *
+     * @var Varien_Db_Adapter_Pdo_Mysql
+     */
+    protected $_write;
+
+    /**
+     * Retrieve connection for write data
+     *
+     * @return Varien_Db_Adapter_Interface
+     */
+    protected function _getWriteAdapter()
+    {
+        if (is_null($this->_write)) {
+            $this->_write = Mage::getSingleton('core/resource')->getConnection('core_write');
+        }
+        return $this->_write;
+    }
+
+    protected function _getTable()
+    {
+        return Mage::getSingleton('core/resource')->getTableName('catalog/category_product');
+    }
+
+    /**
      * @param $sourceId Source category Id
      * @param $targetId Target category Id
      * @return bool
@@ -31,15 +56,21 @@ class MKleine_Categorymerge_Model_Merge extends Mage_Core_Model_Abstract
             $sourceCategory = $this->getModel()->load($sourceId);
             $targetCategory = $this->getModel()->load($targetId);
 
-            $sourceItems = $sourceCategory->getProductCollection()->setOrder('position', 'asc')->getAllIds();
+            $sourceItems = array_fill_keys($sourceCategory->getProductCollection()->setOrder('position', 'asc')->getAllIds(), 1);
+            $insert = array_diff_key($sourceItems, $targetCategory->getProductsPosition());
 
-            // Use positioning to move items into new category
-            $positions = $targetCategory->getProductsPosition();
-            foreach ($sourceItems as $itemId) {
-                $positions[$itemId] = 1;
+            // Add products to category
+            if (!empty($insert)) {
+                $data = array();
+                foreach ($insert as $productId => $position) {
+                    $data[] = array(
+                        'category_id' => (int)$targetId,
+                        'product_id' => (int)$productId,
+                        'position' => (int)$position
+                    );
+                }
+                $this->_getWriteAdapter()->insertMultiple($this->_getTable(), $data);
             }
-            $targetCategory->setPostedProducts($positions);
-            $targetCategory->save();
 
             // Just delete a category which is not parent of the target
             if ($deleteSource && !in_array($sourceCategory->getId(), $targetCategory->getParentIds())) {
