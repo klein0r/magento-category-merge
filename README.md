@@ -1,0 +1,2 @@
+magento-category-merge
+======================
