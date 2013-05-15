@@ -39,6 +39,7 @@ class MKleine_Categorymerge_Block_Catalog_Category_Tab_Categorymerge extends Mag
         $collection = Mage::getModel('catalog/category')->getCollection()
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('is_active')
+            ->addAttributeToSelect('level')
             ->addAttributeToFilter('entity_id', array('neq' => $this->getCategory()->getId()));
 
         $this->setCollection($collection);
@@ -63,12 +64,19 @@ class MKleine_Categorymerge_Block_Catalog_Category_Tab_Categorymerge extends Mag
 
         $this->addColumn('is_active', array(
             'header'    => Mage::helper('mk_categorymerge')->__('Is Active'),
+            'width'     => '70',
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => array(
                 0   => Mage::helper('mk_categorymerge')->__('No'),
                 1   => Mage::helper('mk_categorymerge')->__('Yes')
             )
+        ));
+
+        $this->addColumn('level', array(
+            'header'    => Mage::helper('mk_categorymerge')->__('Level'),
+            'width'     => '70',
+            'index'     => 'level',
         ));
 
         $this->addColumn('merge_action', array(

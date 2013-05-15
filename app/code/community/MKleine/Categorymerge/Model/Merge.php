@@ -33,16 +33,21 @@ class MKleine_Categorymerge_Model_Merge extends Mage_Core_Model_Abstract
 
             $sourceItems = $sourceCategory->getProductCollection()->setOrder('position', 'asc')->getAllIds();
 
+            // Use positioning to move items into new category
+            $positions = $targetCategory->getProductsPosition();
             foreach ($sourceItems as $itemId) {
-                $product = Mage::getModel('catalog/product')->load($itemId);
-                $product->setCategoryIds(array_merge($product->getCategoryIds(), array($targetCategory->getId())));
-                $product->save();
+                $positions[$itemId] = 1;
             }
+            $targetCategory->setPostedProducts($positions);
+            $targetCategory->save();
 
             // Just delete a category which is not parent of the target
             if ($deleteSource && !in_array($sourceCategory->getId(), $targetCategory->getParentIds())) {
                 $sourceCategory->delete();
             }
+
+            Mage::dispatchEvent('mkleine_category_merge_finished',
+                array('source_category' => $sourceCategory, 'target_category' => $targetCategory));
 
             return true;
         } catch (Exception $e) {
