@@ -49,6 +49,7 @@ class MKleine_Categorymerge_Block_Catalog_Category_Tab_Categorymerge extends Mag
 
     protected function _prepareColumns()
     {
+        $helper = Mage::helper('mk_categorymerge');
 
         $this->addColumn('entity_id', array(
             'header'    => Mage::helper('mk_categorymerge')->__('ID'),
@@ -87,14 +88,28 @@ class MKleine_Categorymerge_Block_Catalog_Category_Tab_Categorymerge extends Mag
             'confirm'   => 'ka',
             'actions'   => array(
                 array(
-                    'caption'   => Mage::helper('mk_categorymerge')->__('Merge to and delete current'),
-                    'url'       => array('base'=> '*/*/merge', 'params' => array( 'source' => $this->getCategory()->getId(), 'delete' => 1 )),
-                    'field'     => 'target'
+                    'caption'   => $helper->__('Merge to and delete current'),
+                    'url'       => array(
+                        'base'=> '*/*/merge',
+                        'params' => array(
+                            'source' => $this->getCategory()->getId(),
+                            'delete' => 1
+                        )
+                    ),
+                    'field'     => 'target',
+                    'confirm'   => $helper->__('Are your sure you want to merge into that category and delete %s?', $this->getCategory()->getName())
                 ),
                 array(
-                    'caption'   => Mage::helper('mk_categorymerge')->__('Merge to and keep current'),
-                    'url'       => array('base'=> '*/*/merge', 'params' => array( 'source' => $this->getCategory()->getId(), 'delete' => 0 )),
-                    'field'     => 'target'
+                    'caption'   => $helper->__('Merge to and keep current'),
+                    'url'       => array(
+                        'base'=> '*/*/merge',
+                        'params' => array(
+                            'source' => $this->getCategory()->getId(),
+                            'delete' => 0
+                        )
+                    ),
+                    'field'     => 'target',
+                    'confirm'   => $helper->__('Are your sure you want to merge into that category and keep %s?', $this->getCategory()->getName())
                 ),
             ),
             'filter'    => false,
@@ -111,14 +126,28 @@ class MKleine_Categorymerge_Block_Catalog_Category_Tab_Categorymerge extends Mag
             'confirm'   => 'ka',
             'actions'   => array(
                 array(
-                    'caption'   => Mage::helper('mk_categorymerge')->__('Merge into current and delete source'),
-                    'url'       => array('base'=> '*/*/merge', 'params' => array( 'target' => $this->getCategory()->getId(), 'delete' => 1 )),
-                    'field'     => 'source'
+                    'caption'   => $helper->__('Merge into current and delete source'),
+                    'url'       => array(
+                        'base'=> '*/*/merge',
+                        'params' => array(
+                            'target' => $this->getCategory()->getId(),
+                            'delete' => 1
+                        )
+                    ),
+                    'field'     => 'source',
+                    'confirm'   => $helper->__('Are your sure you want to merge into %s and delete that category?', $this->getCategory()->getName())
                 ),
                 array(
-                    'caption'   => Mage::helper('mk_categorymerge')->__('Merge into current and keep source'),
-                    'url'       => array('base'=> '*/*/merge', 'params' => array( 'target' => $this->getCategory()->getId(), 'delete' => 0 )),
-                    'field'     => 'source'
+                    'caption'   => $helper->__('Merge into current and keep source'),
+                    'url'       => array(
+                        'base'=> '*/*/merge',
+                        'params' => array(
+                            'target' => $this->getCategory()->getId(),
+                            'delete' => 0
+                        )
+                    ),
+                    'field'     => 'source',
+                    'confirm'   => $helper->__('Are your sure you want to merge into %s and keep that category?', $this->getCategory()->getName())
                 ),
             ),
             'filter'    => false,

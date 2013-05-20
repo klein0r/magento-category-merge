@@ -56,6 +56,10 @@ class MKleine_Categorymerge_Model_Merge extends Mage_Core_Model_Abstract
             $sourceCategory = $this->getModel()->load($sourceId);
             $targetCategory = $this->getModel()->load($targetId);
 
+            // Check if both categories exist
+            if (!$sourceCategory->getId() || !$targetCategory->getId())
+                return false;
+
             $sourceItems = array_fill_keys($sourceCategory->getProductCollection()->setOrder('position', 'asc')->getAllIds(), 1);
             $insert = array_diff_key($sourceItems, $targetCategory->getProductsPosition());
 
