@@ -77,6 +77,12 @@ class MKleine_Categorymerge_Model_Merge extends Mage_Core_Model_Abstract
                 $sourceCategory->delete();
             }
 
+            // Redindex
+
+            /** @var $index Mage_Index_Model_Process */
+            $index = Mage::getModel('index/process')->load('catalog_category_product', 'indexer_code');
+            $index->reindexEverything();
+
             Mage::dispatchEvent('mkleine_category_merge_finished',
                 array('source_category' => $sourceCategory, 'target_category' => $targetCategory));
 
