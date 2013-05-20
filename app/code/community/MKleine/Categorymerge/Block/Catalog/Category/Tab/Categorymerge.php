@@ -79,22 +79,46 @@ class MKleine_Categorymerge_Block_Catalog_Category_Tab_Categorymerge extends Mag
             'index'     => 'level',
         ));
 
-        $this->addColumn('merge_action', array(
-            'header'    =>  Mage::helper('mk_categorymerge')->__('Action'),
+        $this->addColumn('merge_to_action', array(
+            'header'    =>  Mage::helper('mk_categorymerge')->__('Action To'),
             'width'     => '200',
             'type'      => 'action',
             'getter'    => 'getId',
             'confirm'   => 'ka',
             'actions'   => array(
                 array(
-                    'caption'   => Mage::helper('mk_categorymerge')->__('Merge and Delete'),
+                    'caption'   => Mage::helper('mk_categorymerge')->__('Merge to and delete current'),
                     'url'       => array('base'=> '*/*/merge', 'params' => array( 'source' => $this->getCategory()->getId(), 'delete' => 1 )),
                     'field'     => 'target'
                 ),
                 array(
-                    'caption'   => Mage::helper('mk_categorymerge')->__('Merge and Keep'),
+                    'caption'   => Mage::helper('mk_categorymerge')->__('Merge to and keep current'),
                     'url'       => array('base'=> '*/*/merge', 'params' => array( 'source' => $this->getCategory()->getId(), 'delete' => 0 )),
                     'field'     => 'target'
+                ),
+            ),
+            'filter'    => false,
+            'sortable'  => false,
+            'index'     => 'stores',
+            'is_system' => true,
+        ));
+
+        $this->addColumn('merge_from_action', array(
+            'header'    =>  Mage::helper('mk_categorymerge')->__('Action From'),
+            'width'     => '200',
+            'type'      => 'action',
+            'getter'    => 'getId',
+            'confirm'   => 'ka',
+            'actions'   => array(
+                array(
+                    'caption'   => Mage::helper('mk_categorymerge')->__('Merge into current and delete source'),
+                    'url'       => array('base'=> '*/*/merge', 'params' => array( 'target' => $this->getCategory()->getId(), 'delete' => 1 )),
+                    'field'     => 'source'
+                ),
+                array(
+                    'caption'   => Mage::helper('mk_categorymerge')->__('Merge into current and keep source'),
+                    'url'       => array('base'=> '*/*/merge', 'params' => array( 'target' => $this->getCategory()->getId(), 'delete' => 0 )),
+                    'field'     => 'source'
                 ),
             ),
             'filter'    => false,
