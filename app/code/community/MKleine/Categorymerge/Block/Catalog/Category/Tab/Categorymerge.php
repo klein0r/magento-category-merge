@@ -1,4 +1,5 @@
 <?php
+
 /**
  * MKleine - (c) Matthias Kleine
  *
@@ -52,64 +53,64 @@ class MKleine_Categorymerge_Block_Catalog_Category_Tab_Categorymerge extends Mag
         $helper = Mage::helper('mk_categorymerge');
 
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('mk_categorymerge')->__('ID'),
-            'sortable'  => true,
-            'width'     => '60',
-            'index'     => 'entity_id'
+            'header'   => Mage::helper('mk_categorymerge')->__('ID'),
+            'sortable' => true,
+            'width'    => '60',
+            'index'    => 'entity_id'
         ));
 
         $this->addColumn('name', array(
-            'header'    => Mage::helper('mk_categorymerge')->__('Name'),
-            'index'     => 'name'
+            'header' => Mage::helper('mk_categorymerge')->__('Name'),
+            'index'  => 'name'
         ));
 
         $this->addColumn('is_active', array(
-            'header'    => Mage::helper('mk_categorymerge')->__('Is Active'),
-            'width'     => '70',
-            'index'     => 'is_active',
-            'type'      => 'options',
-            'options'   => array(
-                0   => Mage::helper('mk_categorymerge')->__('No'),
-                1   => Mage::helper('mk_categorymerge')->__('Yes')
+            'header'  => Mage::helper('mk_categorymerge')->__('Is Active'),
+            'width'   => '70',
+            'index'   => 'is_active',
+            'type'    => 'options',
+            'options' => array(
+                0 => Mage::helper('mk_categorymerge')->__('No'),
+                1 => Mage::helper('mk_categorymerge')->__('Yes')
             )
         ));
 
         $this->addColumn('level', array(
-            'header'    => Mage::helper('mk_categorymerge')->__('Level'),
-            'width'     => '70',
-            'index'     => 'level',
+            'header' => Mage::helper('mk_categorymerge')->__('Level'),
+            'width'  => '70',
+            'index'  => 'level',
         ));
 
         $this->addColumn('merge_to_action', array(
-            'header'    =>  Mage::helper('mk_categorymerge')->__('Action To'),
+            'header'    => Mage::helper('mk_categorymerge')->__('Action To'),
             'width'     => '200',
             'type'      => 'action',
             'getter'    => 'getId',
             'confirm'   => 'ka',
             'actions'   => array(
                 array(
-                    'caption'   => $helper->__('Merge to and delete current'),
-                    'url'       => array(
-                        'base'=> '*/*/merge',
+                    'caption' => $helper->__('Merge to and delete current'),
+                    'url'     => array(
+                        'base'   => '*/*/merge',
                         'params' => array(
                             'source' => $this->getCategory()->getId(),
                             'delete' => 1
                         )
                     ),
-                    'field'     => 'target',
-                    'confirm'   => $helper->__('Are your sure you want to merge into that category and delete %s?', $this->getCategory()->getName())
+                    'field'   => 'target',
+                    'confirm' => $helper->__('Are your sure you want to merge into that category and delete %s?', $this->getCategory()->getName())
                 ),
                 array(
-                    'caption'   => $helper->__('Merge to and keep current'),
-                    'url'       => array(
-                        'base'=> '*/*/merge',
+                    'caption' => $helper->__('Merge to and keep current'),
+                    'url'     => array(
+                        'base'   => '*/*/merge',
                         'params' => array(
                             'source' => $this->getCategory()->getId(),
                             'delete' => 0
                         )
                     ),
-                    'field'     => 'target',
-                    'confirm'   => $helper->__('Are your sure you want to merge into that category and keep %s?', $this->getCategory()->getName())
+                    'field'   => 'target',
+                    'confirm' => $helper->__('Are your sure you want to merge into that category and keep %s?', $this->getCategory()->getName())
                 ),
             ),
             'filter'    => false,
@@ -119,35 +120,35 @@ class MKleine_Categorymerge_Block_Catalog_Category_Tab_Categorymerge extends Mag
         ));
 
         $this->addColumn('merge_from_action', array(
-            'header'    =>  Mage::helper('mk_categorymerge')->__('Action From'),
+            'header'    => Mage::helper('mk_categorymerge')->__('Action From'),
             'width'     => '200',
             'type'      => 'action',
             'getter'    => 'getId',
             'confirm'   => 'ka',
             'actions'   => array(
                 array(
-                    'caption'   => $helper->__('Merge into current and delete source'),
-                    'url'       => array(
-                        'base'=> '*/*/merge',
+                    'caption' => $helper->__('Merge into current and delete source'),
+                    'url'     => array(
+                        'base'   => '*/*/merge',
                         'params' => array(
                             'target' => $this->getCategory()->getId(),
                             'delete' => 1
                         )
                     ),
-                    'field'     => 'source',
-                    'confirm'   => $helper->__('Are your sure you want to merge into %s and delete that category?', $this->getCategory()->getName())
+                    'field'   => 'source',
+                    'confirm' => $helper->__('Are your sure you want to merge into %s and delete that category?', $this->getCategory()->getName())
                 ),
                 array(
-                    'caption'   => $helper->__('Merge into current and keep source'),
-                    'url'       => array(
-                        'base'=> '*/*/merge',
+                    'caption' => $helper->__('Merge into current and keep source'),
+                    'url'     => array(
+                        'base'   => '*/*/merge',
                         'params' => array(
                             'target' => $this->getCategory()->getId(),
                             'delete' => 0
                         )
                     ),
-                    'field'     => 'source',
-                    'confirm'   => $helper->__('Are your sure you want to merge into %s and keep that category?', $this->getCategory()->getName())
+                    'field'   => 'source',
+                    'confirm' => $helper->__('Are your sure you want to merge into %s and keep that category?', $this->getCategory()->getName())
                 ),
             ),
             'filter'    => false,
@@ -164,4 +165,18 @@ class MKleine_Categorymerge_Block_Catalog_Category_Tab_Categorymerge extends Mag
         return $this->getUrl('*/*/mergegrid', array('_current' => true));
     }
 
+    /**
+     * We must disable this method otherwise grid.phtml will die on line 171 because Mage_Catalog_Model_Category
+     * returns for getChildren() an imploded string but grid.phtml expects an array.
+     *
+     * Get children of specified item
+     *
+     * @param Varien_Object $item
+     *
+     * @return array
+     */
+    public function getMultipleRows($item)
+    {
+        return false;
+    }
 }
