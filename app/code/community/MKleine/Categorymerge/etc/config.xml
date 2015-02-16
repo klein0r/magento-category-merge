@@ -37,7 +37,7 @@
         <layout>
             <updates>
                 <mk_categorymerge>
-                    <file>MKleine_Categorymerge.xml</file>
+                    <file>mkleine/category_merge.xml</file>
                 </mk_categorymerge>
             </updates>
         </layout>

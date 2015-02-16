@@ -31,13 +31,8 @@ class MKleine_Categorymerge_Catalog_CategoryController extends Mage_Adminhtml_Ca
         if (!$category = $this->_initCategory(true)) {
             return;
         }
-        /** @var MKleine_Categorymerge_Block_Catalog_Category_Tab_Categorymerge $block */
-        $block = $this->getLayout()->createBlock(
-            'mk_categorymerge/catalog_category_tab_categorymerge',
-            'category.product.categorymerge'
-        );
-
-        $this->getResponse()->setBody($block->toHtml());
+        $this->loadLayout(false);
+        $this->renderLayout();
     }
 
     public function mergeAction()
@@ -45,16 +40,16 @@ class MKleine_Categorymerge_Catalog_CategoryController extends Mage_Adminhtml_Ca
         /** @var $mergeModel MKleine_Categorymerge_Model_Merge */
         $mergeModel = Mage::getModel('mk_categorymerge/merge');
 
-        $source       = (int)$this->getRequest()->getParam('source');
-        $target       = (int)$this->getRequest()->getParam('target');
-        $deleteSource = $this->getRequest()->getParam('delete') ? true : false;
+        $source       = (int)$this->getRequest()->getParam('source', 0);
+        $target       = (int)$this->getRequest()->getParam('target', 0);
+        $deleteSource = $this->getRequest()->getParam('delete', 0) === 1;
 
-        if (!empty($source) && !empty($target) && $mergeModel->mergeCategories($source, $target, $deleteSource)) {
-            Mage::getSingleton('core/session')->addSuccess($this->__('Your categories have been merged successfully'));
+        if ($source > 0 && $target > 0 && $mergeModel->mergeCategories($source, $target, $deleteSource)) {
+            $this->_getSession()->addSuccess($this->__('Your categories have been merged successfully'));
         } else {
-            Mage::getSingleton('core/session')->addError($this->__('Category merge failed'));
+            $this->_getSession()->addError($this->__('Category merge failed'));
         }
 
-        $this->_forward('edit', null, null, array('id' => $target));
+        $this->_forward('edit', null, null, ['id' => $target]);
     }
 }
