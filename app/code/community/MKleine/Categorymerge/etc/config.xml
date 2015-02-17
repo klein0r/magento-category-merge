@@ -2,7 +2,7 @@
 <config>
     <modules>
         <MKleine_Categorymerge>
-            <version>0.0.3</version>
+            <version>0.1.0</version>
         </MKleine_Categorymerge>
     </modules>
     <global>
@@ -37,7 +37,7 @@
         <layout>
             <updates>
                 <mk_categorymerge>
-                    <file>MKleine_Categorymerge.xml</file>
+                    <file>mkleine/category_merge.xml</file>
                 </mk_categorymerge>
             </updates>
         </layout>
@@ -51,15 +51,6 @@
                     </mk_categorymerge_adminhtml_catalog_category_tabs>
                 </observers>
             </adminhtml_catalog_category_tabs>
-            <catalog_category_save_after>
-                <observers>
-                    <mk_categorymerge_catalog_category_save_after>
-                        <type>singleton</type>
-                        <class>mk_categorymerge/observer</class>
-                        <method>catalog_category_save_after</method>
-                    </mk_categorymerge_catalog_category_save_after>
-                </observers>
-            </catalog_category_save_after>
         </events>
         <translate>
             <modules>

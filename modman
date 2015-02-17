@@ -1,4 +1,5 @@
 app/code/community/MKleine/Categorymerge app/code/community/MKleine/Categorymerge
+app/design/adminhtml/default/default/layout/mkleine app/design/adminhtml/default/default/layout/mkleine
 app/etc/modules/MKleine_Categorymerge.xml app/etc/modules/MKleine_Categorymerge.xml
 app/locale/de_DE/MKleine_Categorymerge.csv app/locale/de_DE/MKleine_Categorymerge.csv
 app/locale/en_US/MKleine_Categorymerge.csv app/locale/en_US/MKleine_Categorymerge.csv

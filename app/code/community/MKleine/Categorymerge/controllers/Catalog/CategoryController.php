@@ -16,6 +16,7 @@
  * @category    MKleine
  * @package     MKleine_Categorymerge
  * @copyright   Copyright (c) 2013 Matthias Kleine (http://mkleine.de)
+ * @copyright   Copyright (c) 2015 Zookal Pty Ltd Cyrill Schumacher (https://github.com/zookal)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -31,13 +32,8 @@ class MKleine_Categorymerge_Catalog_CategoryController extends Mage_Adminhtml_Ca
         if (!$category = $this->_initCategory(true)) {
             return;
         }
-        /** @var MKleine_Categorymerge_Block_Catalog_Category_Tab_Categorymerge $block */
-        $block = $this->getLayout()->createBlock(
-            'mk_categorymerge/catalog_category_tab_categorymerge',
-            'category.product.categorymerge'
-        );
-
-        $this->getResponse()->setBody($block->toHtml());
+        $this->loadLayout(false);
+        $this->renderLayout();
     }
 
     public function mergeAction()
@@ -45,16 +41,21 @@ class MKleine_Categorymerge_Catalog_CategoryController extends Mage_Adminhtml_Ca
         /** @var $mergeModel MKleine_Categorymerge_Model_Merge */
         $mergeModel = Mage::getModel('mk_categorymerge/merge');
 
-        $source       = (int)$this->getRequest()->getParam('source');
-        $target       = (int)$this->getRequest()->getParam('target');
-        $deleteSource = $this->getRequest()->getParam('delete') ? true : false;
+        $source       = (int)$this->getRequest()->getParam('source', 0);
+        $target       = (int)$this->getRequest()->getParam('target', 0);
+        $deleteSource = (int)$this->getRequest()->getParam('delete', 0) === 1;
 
-        if (!empty($source) && !empty($target) && $mergeModel->mergeCategories($source, $target, $deleteSource)) {
-            Mage::getSingleton('core/session')->addSuccess($this->__('Your categories have been merged successfully'));
+        $mergeModel->setSource($source);
+        $mergeModel->setTarget($target);
+        if ($source > 0 && $target > 0 && $mergeModel->mergeCategories($deleteSource)) {
+            $this->_getSession()->addSuccess($this->__(
+                'Category %s and its children has been merged successfully into %s',
+                $mergeModel->getSource()->getName(),
+                $mergeModel->getTarget()->getName()
+            ));
         } else {
-            Mage::getSingleton('core/session')->addError($this->__('Category merge failed'));
+            $this->_getSession()->addError($this->__('Category merge failed'));
         }
-
-        $this->_forward('edit', null, null, array('id' => $target));
+        $this->_redirect('*/*/edit', array('id' => $target));
     }
 }

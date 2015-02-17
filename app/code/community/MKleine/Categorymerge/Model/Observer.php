@@ -1,4 +1,5 @@
 <?php
+
 /**
  * MKleine - (c) Matthias Kleine
  *
@@ -32,24 +33,12 @@ class MKleine_Categorymerge_Model_Observer extends Mage_Core_Model_Abstract
 
         if (Mage::helper('mk_categorymerge')->getCategory()->getId()) {
             $tabs->addTab('category_merge', array(
-                'label'     => Mage::helper('mk_categorymerge')->__('Category Merge'),
-                'content'   => $tabs->getLayout()->createBlock(
+                'label'   => Mage::helper('mk_categorymerge')->__('Category Merge'),
+                'content' => $tabs->getLayout()->createBlock(
                     'mk_categorymerge/catalog_category_tab_categorymerge',
                     'category.product.categorymerge'
                 )->toHtml(),
             ));
-        }
-    }
-
-    /**
-     * @param $observer Varien_Event_Observer
-     */
-    public function catalog_category_save_after($observer)
-    {
-        $category = $observer->getCategory();
-
-        if ($category) {
-
         }
     }
 }
