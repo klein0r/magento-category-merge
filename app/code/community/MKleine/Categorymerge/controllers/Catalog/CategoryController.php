@@ -16,6 +16,7 @@
  * @category    MKleine
  * @package     MKleine_Categorymerge
  * @copyright   Copyright (c) 2013 Matthias Kleine (http://mkleine.de)
+ * @copyright   Copyright (c) 2015 Zookal Pty Ltd Cyrill Schumacher (https://github.com/zookal)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -42,14 +43,19 @@ class MKleine_Categorymerge_Catalog_CategoryController extends Mage_Adminhtml_Ca
 
         $source       = (int)$this->getRequest()->getParam('source', 0);
         $target       = (int)$this->getRequest()->getParam('target', 0);
-        $deleteSource = $this->getRequest()->getParam('delete', 0) === 1;
+        $deleteSource = (int)$this->getRequest()->getParam('delete', 0) === 1;
 
-        if ($source > 0 && $target > 0 && $mergeModel->mergeCategories($source, $target, $deleteSource)) {
-            $this->_getSession()->addSuccess($this->__('Your categories have been merged successfully'));
+        $mergeModel->setSource($source);
+        $mergeModel->setTarget($target);
+        if ($source > 0 && $target > 0 && $mergeModel->mergeCategories($deleteSource)) {
+            $this->_getSession()->addSuccess($this->__(
+                'Category %s and its children has been merged successfully into %s',
+                $mergeModel->getSource()->getName(),
+                $mergeModel->getTarget()->getName()
+            ));
         } else {
             $this->_getSession()->addError($this->__('Category merge failed'));
         }
-
-        $this->_forward('edit', null, null, ['id' => $target]);
+        $this->_redirect('*/*/edit', array('id' => $target));
     }
 }
