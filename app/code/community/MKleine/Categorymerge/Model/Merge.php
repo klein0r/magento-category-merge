@@ -84,14 +84,13 @@ class MKleine_Categorymerge_Model_Merge extends Mage_Core_Model_Abstract
                 $this->_source->delete();
             }
 
-            /** @var $index Mage_Index_Model_Process */
-            $index = Mage::getModel('index/process')->load('catalog_category_product', 'indexer_code');
-            if ($index->getId() && $index->getMode() == Mage_Index_Model_Process::MODE_REAL_TIME) {
-                $index->reindexEverything();
-            }
-
             Mage::dispatchEvent('mkleine_category_merge_finished',
-                array('source_category' => $this->_source, 'target_category' => $this->_target));
+                ['source_category' => $this->_source, 'target_category' => $this->_target]
+            );
+
+            Mage::getSingleton('index/indexer')->processEntityAction(
+                $this->_target, 'catalog_category_product', Mage_Index_Model_Event::TYPE_SAVE
+            );
 
             return true;
         } catch (Exception $e) {
@@ -125,13 +124,13 @@ class MKleine_Categorymerge_Model_Merge extends Mage_Core_Model_Abstract
         $productInsert      = array_diff_key($productSourceItems, $this->_target->getProductsPosition());
 
         if (!empty($productInsert)) {
-            $data = array();
+            $data = [];
             foreach ($productInsert as $productId => $position) {
-                $data[] = array(
+                $data[] = [
                     'category_id' => (int)$this->_target->getId(),
                     'product_id'  => (int)$productId,
                     'position'    => (int)$position
-                );
+                ];
             }
             $this->_getWriteAdapter()->insertMultiple($this->_getTable(), $data);
         }
