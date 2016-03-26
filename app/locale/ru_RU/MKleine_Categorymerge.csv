@@ -1,0 +1,13 @@
+"Category Merge","Перенос товаров"
+"Action To","Перенос из текущей категории"
+"Action From","Перенос в текущую категорию"
+"Merge to and delete current","Перенести в эту категорию и удалить текущую"
+"Merge to and keep current","Перенести в эту категорию и не удалять текущую"
+"Merge into current and delete source","Перенести в текущую категорию и удалить ту из которой перенесли",
+"Merge into current and keep source","Перенести в текущую категорию и не удалять ту из которой перенесли",
+"Are your sure you want to merge into %s and delete that category?","Вы уверены что хотите перенести товары в категорию %s и удалить  категорию из которой производится перенос?"
+"Are your sure you want to merge into %s and keep that category?","Вы уверены что хотите перенести товары в категорию %s и не удалять категорию из которой производится перенос?"
+"Are your sure you want to merge into that category and delete %s?","Вы уверены что хотите перенести товары в выбранную категорию и удалить %s?"
+"Are your sure you want to merge into that category and keep %s?","Вы уверены что хотите перенсти товары в выбранную категорию и не удалять %s?"
+"Category merge failed","Ошибке при переносе товаров в категорию"
+"Is Active","Включено"
